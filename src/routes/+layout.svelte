@@ -2,13 +2,12 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
 
-
 	onMount(() => {
 		// preloader;
 		const preloader = document.querySelector('.preloader-wrapper');
 		setTimeout(() => {
 			preloader.classList.add('hidden');
-		}, 5500);
+		}, 1000);
 	});
 </script>
 
@@ -21,7 +20,80 @@
 	</h1>
 </div>
 
-
-
-
 <slot />
+
+<svelte:head>
+	<title>Home</title>
+</svelte:head>
+
+<style>
+	.preloader {
+		width: 100px;
+		height: 100px;
+		border: 5px solid #333;
+		border-radius: 50%;
+		border-top-color: transparent;
+		animation: spin 1s linear infinite;
+	}
+	#loader {
+		display: block;
+		position: relative;
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		border: 3px solid transparent;
+		border-top-color: #7bb516;
+		-webkit-animation: spin 2s linear infinite;
+		animation: spin 2s linear infinite;
+	}
+	#loader:before {
+		content: '';
+		position: absolute;
+		top: 5px;
+		left: 5px;
+		right: 5px;
+		bottom: 5px;
+		border-radius: 50%;
+		border: 3px solid transparent;
+		border-top-color: #f86104;
+		-webkit-animation: spin 3s linear infinite;
+		animation: spin 3s linear infinite;
+	}
+	#loader:after {
+		content: '';
+		position: absolute;
+		top: 15px;
+		left: 15px;
+		right: 15px;
+		bottom: 15px;
+		border-radius: 50%;
+		border: 3px solid transparent;
+		border-top-color: #5c7e00;
+		-webkit-animation: spin 1.5s linear infinite;
+		animation: spin 1.5s linear infinite;
+	}
+	@-webkit-keyframes spin {
+		0% {
+			-webkit-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes spin {
+		0% {
+			-webkit-transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100% {
+			-webkit-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			transform: rotate(360deg);
+		}
+	}
+</style>
