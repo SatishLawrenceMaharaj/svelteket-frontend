@@ -1,13 +1,34 @@
 <script>
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import {
+		Navbar,
+		NavBrand,
+		NavLi,
+		NavUl,
+		NavHamburger,
+		Dropdown,
+		DropdownItem,
+		DropdownDivider,
+		Alert,
+		Avatar,
+		Modal,
+		Input,
+		Label,
+		Checkbox,
+		Button,
+		Footer,
+		FooterLink,
+		FooterLinkGroup,
+		FooterCopyright
+	} from 'flowbite-svelte';
 
 	onMount(() => {
 		// preloader;
 		const preloader = document.querySelector('.preloader-wrapper');
 		setTimeout(() => {
 			preloader.classList.add('hidden');
-		}, 1000);
+		}, 800);
 	});
 </script>
 
@@ -27,6 +48,7 @@
 </svelte:head>
 
 <style>
+	/*preloader css*/
 	.preloader {
 		width: 100px;
 		height: 100px;
