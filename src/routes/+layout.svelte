@@ -80,26 +80,40 @@
 			</NavBrand>
 			<NavHamburger on:click={toggle} />
 			<NavUl {hidden}>
-				<NavLi active={active === 'Home'} href="/" on:click={() => (active = 'Home')}>Home</NavLi>
 				<NavLi
+					activeClass="text-white bg-white-700 md:bg-transparent md:text-white-700 md:dark:text-white dark:bg-white-600 md:dark:bg-transparent"
+					nonActiveClass="text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+					active={active === 'Home'}
+					href="/"
+					on:click={() => (active = 'Home')}>Home</NavLi
+				>
+				<NavLi
+					activeClass="text-white bg-white-700 md:bg-transparent md:text-white-700 md:dark:text-white dark:bg-white-600 md:dark:bg-transparent"
+					nonActiveClass="text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
 					active={active === 'About'}
 					href="/"
 					on:click={() => (active = 'About')}
 					on:click={() => (aboutModal = true)}>About</NavLi
 				>
 				<NavLi
+					activeClass="text-white bg-white-700 md:bg-transparent md:text-white-700 md:dark:text-white dark:bg-white-600 md:dark:bg-transparent"
+					nonActiveClass="text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
 					active={active === 'Users'}
 					href="/"
 					on:click={() => (active = 'Users')}
 					on:click={() => (usersModal = true)}>Users</NavLi
 				>
 				<NavLi
+					activeClass="text-white bg-white-700 md:bg-transparent md:text-white-700 md:dark:text-white dark:bg-white-600 md:dark:bg-transparent"
+					nonActiveClass="text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
 					active={active === 'Sign In'}
 					href="/"
 					on:click={() => (active = 'Sign In')}
 					on:click={() => (loginModal = true)}>Sign In</NavLi
 				>
 				<NavLi
+					activeClass="text-white bg-white-700 md:bg-transparent md:text-white-700 md:dark:text-white dark:bg-white-600 md:dark:bg-transparent"
+					nonActiveClass="text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
 					active={active === 'Register'}
 					href="/"
 					on:click={() => (active = 'Register')}
