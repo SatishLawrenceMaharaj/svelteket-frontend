@@ -93,11 +93,17 @@
 					on:click={() => (active = 'Users')}
 					on:click={() => (usersModal = true)}>Users</NavLi
 				>
-				<NavLi active={active === 'Sign In'} href="/" on:click={() => (active = 'Sign In')}
-					>Sign In</NavLi
+				<NavLi
+					active={active === 'Sign In'}
+					href="/"
+					on:click={() => (active = 'Sign In')}
+					on:click={() => (loginModal = true)}>Sign In</NavLi
 				>
-				<NavLi active={active === 'Register'} href="/" on:click={() => (active = 'Register')}
-					>Register</NavLi
+				<NavLi
+					active={active === 'Register'}
+					href="/"
+					on:click={() => (active = 'Register')}
+					on:click={() => (registerModal = true)}>Register</NavLi
 				>
 			</NavUl>
 		</Navbar>
@@ -335,11 +341,7 @@
 										<li class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 											<Checkbox>Standard 5 Separsad</Checkbox>
 										</li>
-										<Button
-											on:click={submit}
-											class="!p-2.5 bg-primary-light"
-											type="submit"
-										>
+										<Button on:click={submit} class="!p-2.5 bg-primary-light" type="submit">
 											<div class="flex space-x-4">
 												<svg
 													class="w-6 h-6 dark:text-white"
@@ -388,6 +390,89 @@
 	<svelte:fragment slot="footer">
 		<Button>Close</Button>
 	</svelte:fragment>
+</Modal>
+
+<Modal bind:open={loginModal} size="xl" autoclose={false} class="w-full">
+	<form class="flex flex-col space-y-6" action="#">
+		<h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
+		<Label class="space-y-2">
+			<span>Email</span>
+			<Input type="email" name="email" placeholder="name@company.com" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Your password</span>
+			<Input type="password" name="password" placeholder="•••••" required />
+		</Label>
+		<div class="flex items-start">
+			<Checkbox>Remember me</Checkbox>
+			<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+				>Lost password?</a
+			>
+		</div>
+		<Button type="submit" class="w-full1">Login</Button>
+		<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+			Not registered? <a
+				href="/"
+				on:click={() => (registerModal = true)}
+				class="text-blue-700 hover:underline dark:text-blue-500">Create account</a
+			>
+		</div>
+	</form>
+</Modal>
+
+<Modal bind:open={registerModal} size="xl" autoclose={false} class="w-full">
+	<form class="flex flex-col space-y-6" action="#">
+		<h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+			Register for our platform
+		</h3>
+		<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
+		<h4 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">General</h4>
+		<Label class="space-y-2">
+			<span>Name</span>
+			<Input type="text" name="name" placeholder="Satish Maharaj" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Your password</span>
+			<Input type="password" name="password" placeholder="•••••" required />
+		</Label>
+		<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
+		<h4 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Contact</h4>
+		<Label class="space-y-2">
+			<span>Email</span>
+			<Input type="email" name="email" placeholder="name@company.com" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Number</span>
+			<Input type="text" name="number" placeholder="777-7777" />
+		</Label>
+		<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
+		<h4 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Student Affiliated</h4>
+		<Label class="space-y-2">
+			<span>Name</span>
+			<Input type="text" name="name" placeholder="John Doe" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Date of Birth</span>
+			<Input type="date" name="date" placeholder="00/00/0000" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Class</span>
+			<Input type="text" name="class" placeholder="Standard 1 Maharaj" required />
+		</Label>
+
+		<div class="flex items-start">
+			<Checkbox>Remember me</Checkbox>
+			<a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+				>Lost password?</a
+			>
+		</div>
+		<Button type="submit" class="w-full1">Register</Button>
+		<div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+			Already have an account? <a href="/" class="text-blue-700 hover:underline dark:text-blue-500"
+				>Sign in</a
+			>
+		</div>
+	</form>
 </Modal>
 
 <slot />
