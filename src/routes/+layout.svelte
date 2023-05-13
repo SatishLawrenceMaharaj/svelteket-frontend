@@ -23,7 +23,8 @@
 		FooterLinkGroup,
 		FooterCopyright,
 		Textarea,
-		ToolbarButton
+		ToolbarButton,
+		Chevron
 	} from 'flowbite-svelte';
 
 	let active = '';
@@ -45,6 +46,15 @@
 			preloader.classList.add('hidden');
 		}, 800);
 	});
+
+	let aboutModal = false;
+	let registerModal = false;
+	let loginModal = false;
+	let usersModal = false;
+
+	let submit = () => {
+		console.log('submit');
+	};
 </script>
 
 <div
@@ -71,9 +81,17 @@
 			<NavHamburger on:click={toggle} />
 			<NavUl {hidden}>
 				<NavLi active={active === 'Home'} href="/" on:click={() => (active = 'Home')}>Home</NavLi>
-				<NavLi active={active === 'About'} href="/" on:click={() => (active = 'About')}>About</NavLi
+				<NavLi
+					active={active === 'About'}
+					href="/"
+					on:click={() => (active = 'About')}
+					on:click={() => (aboutModal = true)}>About</NavLi
 				>
-				<NavLi active={active === 'Users'} href="/" on:click={() => (active = 'Users')}>Users</NavLi
+				<NavLi
+					active={active === 'Users'}
+					href="/"
+					on:click={() => (active = 'Users')}
+					on:click={() => (usersModal = true)}>Users</NavLi
 				>
 				<NavLi active={active === 'Sign In'} href="/" on:click={() => (active = 'Sign In')}
 					>Sign In</NavLi
@@ -218,6 +236,160 @@
 	</div>
 </div> -->
 
+<Modal title="About" bind:open={aboutModal} size="xl" autoclose>
+	<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+		Studies have show that teachers that release their phone numbers to parents and students have
+		less personal time to themselves. This is due to the fact that they are constantly being called
+		by parents and students.
+	</p>
+	<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+		To enforce the privacy of teachers, the EduPro platform allows teachers to communicate with
+		parents and students without releasing their phone numbers. Hence, teachers can have more
+		personal time to themselves thus reducing the blurring of private and professional lives.
+	</p>
+	<svelte:fragment slot="footer">
+		<Button>Close</Button>
+	</svelte:fragment>
+</Modal>
+
+<Modal title="Users" bind:open={usersModal} size="xl">
+	<form class="flex items-center">
+		<label for="simple-search" class="sr-only">Search</label>
+		<div class="relative w-full">
+			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+				<svg
+					aria-hidden="true"
+					class="w-5 h-5 text-gray-500 dark:text-gray-400"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+					><path
+						fill-rule="evenodd"
+						d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+						clip-rule="evenodd"
+					/></svg
+				>
+			</div>
+			<input
+				type="text"
+				id="simple-search"
+				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				placeholder="Search"
+				required
+			/>
+		</div>
+		<button
+			type="submit"
+			class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+		>
+			<svg
+				class="w-5 h-5"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+				><path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+				/></svg
+			>
+			<span class="sr-only">Search</span>
+		</button>
+	</form>
+
+	<div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+		<ul class="space-y-2 font-medium">
+			<li class="border-none border-2 border-sky-500 hover:border-solid">
+				<a
+					href="#"
+					class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+				>
+					<div class="flex items-center space-x-4">
+						<img
+							class="w-10 h-10 rounded-full"
+							src="https://banner2.cleanpng.com/20180523/tha/kisspng-businessperson-computer-icons-avatar-clip-art-lattice-5b0508dc6a3a10.0013931115270566044351.jpg"
+							alt=""
+						/>
+						<div class="grid gap-3 grid-cols-4">
+							<div class="font-medium dark:text-white">
+								<div>Satish Maharaj</div>
+							</div>
+							<div class="font-medium dark:text-white">
+								<div>Class: Standard 1 Maharaj</div>
+							</div>
+							<div class="font-medium dark:text-white">
+								<div>DoB: 05/22/2001</div>
+							</div>
+							<div class="font-medium dark:text-white">
+								<form action="">
+									<Button><Chevron>Add to Class</Chevron></Button>
+									<Dropdown class="w-48 p-3 space-y-1 text-sm">
+										<li class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+											<Checkbox>Standard 1 Maharaj</Checkbox>
+										</li>
+										<li class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+											<Checkbox>Standard 2 Roopnarine</Checkbox>
+										</li>
+										<li class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+											<Checkbox>Standard 5 Separsad</Checkbox>
+										</li>
+										<Button
+											on:click={submit}
+											class="!p-2.5 bg-primary-light"
+											type="submit"
+										>
+											<div class="flex space-x-4">
+												<svg
+													class="w-6 h-6 dark:text-white"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+													xmlns="http://www.w3.org/2000/svg"
+													><path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														stroke-width="2"
+														d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+													/></svg
+												>
+											</div>
+										</Button>
+									</Dropdown>
+								</form>
+							</div>
+						</div>
+					</div>
+				</a>
+				<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
+			</li>
+
+			<li class="border-none border-2 border-sky-500 hover:border-solid">
+				<a
+					href="#"
+					class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+				>
+					<div class="flex items-center space-x-4">
+						<img
+							class="w-10 h-10 rounded-full"
+							src="https://banner2.cleanpng.com/20180523/tha/kisspng-businessperson-computer-icons-avatar-clip-art-lattice-5b0508dc6a3a10.0013931115270566044351.jpg"
+							alt=""
+						/>
+						<div class="font-medium dark:text-white">
+							<div>John Doe</div>
+						</div>
+					</div>
+				</a>
+				<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
+			</li>
+		</ul>
+	</div>
+	<svelte:fragment slot="footer">
+		<Button>Close</Button>
+	</svelte:fragment>
+</Modal>
+
 <slot />
 
 <svelte:head>
@@ -225,16 +397,6 @@
 </svelte:head>
 
 <style>
-	* {
-		overflow-y: hidden !important;
-		overflow-x: hidden !important;
-	}
-
-	#body {
-		overflow-y: hidden !important;
-		overflow-x: hidden !important;
-	}
-
 	/*preloader css*/
 	.preloader {
 		width: 100px;
