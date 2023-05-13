@@ -29,16 +29,10 @@
 	let active = '';
 	onMount(() => {
 		let url = window.location.href;
-		if (url.includes('my-profile')) {
-			active = 'Profile';
-		} else if (url.includes('settings')) {
-			active = 'Settings';
-		} else if (url.includes('report')) {
-			active = 'Report';
-		} else if (url.includes('contact')) {
-			active = 'Contact';
-		} else if (url.includes('catalog')) {
-			active = 'Catalog';
+		if (url.includes('about')) {
+			active = 'About';
+		} else if (url.includes('users')) {
+			active = 'Users';
 		} else {
 			active = 'Home';
 		}
@@ -64,10 +58,13 @@
 
 <div class="grid gap-2 grid-cols-2 sticky top-0">
 	<div class="column border-b border-black-500 w-screen z-40">
-		<Navbar let:hidden let:toggle>
+		<Navbar let:hidden let:toggle style="background:#3bc7d0;">
 			<NavBrand href="/">
 				<img src={eplogo} class="mr-3 h-6 sm:h-9" alt="EduPro Logo" />
-				<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+				<span
+					class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
+					style="color:white"
+				>
 					EduPro
 				</span>
 			</NavBrand>
@@ -78,10 +75,16 @@
 				>
 				<NavLi active={active === 'Users'} href="/" on:click={() => (active = 'Users')}>Users</NavLi
 				>
+				<NavLi active={active === 'Sign In'} href="/" on:click={() => (active = 'Sign In')}
+					>Sign In</NavLi
+				>
+				<NavLi active={active === 'Register'} href="/" on:click={() => (active = 'Register')}
+					>Register</NavLi
+				>
 			</NavUl>
 		</Navbar>
 	</div>
-	<div class="column z-10">
+	<div class="column z-10" style="background:#42dee8">
 		<aside
 			id="logo-sidebar"
 			class="fixed top-0 left-0 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 z-10"
@@ -141,7 +144,7 @@
 	</div>
 </div>
 
-<div class="p-4 sm:ml-64" id="body">
+<!-- <div class="p-4 sm:ml-64" id="body">
 	<div
 		class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
 		style="height:80vh"
@@ -213,7 +216,7 @@
 			</form>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <slot />
 
@@ -222,12 +225,12 @@
 </svelte:head>
 
 <style>
-	*{
+	* {
 		overflow-y: hidden !important;
 		overflow-x: hidden !important;
 	}
 
-	#body{
+	#body {
 		overflow-y: hidden !important;
 		overflow-x: hidden !important;
 	}
