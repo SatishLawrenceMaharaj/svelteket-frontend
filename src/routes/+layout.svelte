@@ -27,6 +27,28 @@
 		Chevron
 	} from 'flowbite-svelte';
 
+	import mainStore from '$lib/stores/mainStore';
+	import utils from '$lib/stores/utils';
+	import { PUBLIC_API_URL } from '$env/static/public';
+	import { goto } from '$app/navigation';
+
+	onMount(() => {
+		$utils.getChats();
+		// $utils.silentLogin().then(() => {
+		// 	$utils.getChats();
+		// });
+		$utils.getChats().then((res) => {
+			$mainStore.chats = [
+				{
+					id: 0,
+					name: 'General',
+					...res
+				},
+				...$mainStore.chats
+			];
+		});
+	});
+
 	let active = '';
 	onMount(() => {
 		let url = window.location.href;
@@ -139,6 +161,9 @@
 				<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-5" />
 
 				<ul class="space-y-2 font-medium">
+					{#each $mainStore.chats as chat}
+						<p>{chat.chat_name}</p>
+					{/each}
 					<li class="border-none border-2 border-sky-500 hover:border-solid">
 						<a
 							href="#"
