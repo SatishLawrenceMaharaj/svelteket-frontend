@@ -1,6 +1,7 @@
 <script>
 	import '../app.css';
 	import eplogo from '$lib/images/eplogo.png';
+	import initial from '$lib/images/default.png';
 	import { onMount } from 'svelte';
 	import {
 		Navbar,
@@ -31,22 +32,10 @@
 	import utils from '$lib/stores/utils';
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { goto } from '$app/navigation';
+	import Page from './+page.svelte';
 
 	onMount(() => {
 		$utils.getChats();
-		// $utils.silentLogin().then(() => {
-		// 	$utils.getChats();
-		// });
-		$utils.getChats().then((res) => {
-			$mainStore.chats = [
-				{
-					id: 0,
-					name: 'General',
-					...res
-				},
-				...$mainStore.chats
-			];
-		});
 	});
 
 	let active = '';
@@ -73,9 +62,37 @@
 	let registerModal = false;
 	let loginModal = false;
 	let usersModal = false;
+	let newchatModal = false;
 
 	let submit = () => {
 		console.log('submit');
+	};
+
+	let chat_id = '';
+	let chat_name = '';
+	let chat_type = '';
+	let chat_description = '';
+	let chat_image = '';
+	let chat_creator_id = '';
+	let error = '';
+	const createChat = async () => {
+		error = '';
+		let newChat = {
+			chat_id: chat_id,
+			chat_name: chat_name,
+			chat_type: chat_type,
+			chat_description: chat_description,
+			chat_image: chat_image,
+			chat_creator_id: chat_creator_id
+		};
+		console.log(newChat);
+		$utils.createChat(newChat).then((res) => {
+			if (res) {
+				goto('/');
+			} else {
+				error = 'Could not Create Chat';
+			}
+		});
 	};
 </script>
 
@@ -88,7 +105,7 @@
 	</h1>
 </div>
 
-<div class="grid gap-2 grid-cols-2 sticky top-0">
+<div class="grid gap-2 grid-cols-2 top-0">
 	<div class="column border-b border-black-500 w-screen z-40">
 		<Navbar let:hidden let:toggle style="background:#3bc7d0;">
 			<NavBrand href="/">
@@ -151,135 +168,100 @@
 			aria-label="Sidebar"
 		>
 			<div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-				<NavBrand href="/" class="space-y-2">
-					<span
-						class="self-center whitespace-nowrap text-xl font-semibold dark:text-white mt-1 mb-2 ml-2"
+				<div class="flex flex-wrap items-center gap-2 mb-3">
+					<NavBrand href="/" class="space-y-2">
+						<span
+							class="self-center whitespace-nowrap text-xl font-semibold dark:text-white mt-1 mb-3 ml-2"
+						>
+							Chats
+						</span>
+					</NavBrand>
+					<Button
+						pill={true}
+						outline={true}
+						on:click={() => (newchatModal = true)}
+						class="!p-2 ml-5"
+						size="xs"
+						>New Chat <svg
+							aria-hidden="true"
+							class="w-5 h-5"
+							fill="currentColor"
+							viewBox="0 0 20 20"
+							xmlns="http://www.w3.org/2000/svg"
+							><path
+								fill-rule="evenodd"
+								d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+								clip-rule="evenodd"
+							/></svg
+						></Button
 					>
-						Chats
-					</span>
-				</NavBrand>
+				</div>
 				<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-5" />
 
 				<ul class="space-y-2 font-medium">
 					{#each $mainStore.chats as chat}
-						<p>{chat.chat_name}</p>
-					{/each}
-					<li class="border-none border-2 border-sky-500 hover:border-solid">
-						<a
-							href="#"
-							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-						>
-							<div class="flex items-center space-x-4">
-								<img
-									class="w-10 h-10 rounded-full"
-									src="https://banner2.cleanpng.com/20180523/tha/kisspng-businessperson-computer-icons-avatar-clip-art-lattice-5b0508dc6a3a10.0013931115270566044351.jpg"
-									alt=""
-								/>
-								<div class="font-medium dark:text-white">
-									<div>Satish Maharaj</div>
-								</div>
-							</div>
-						</a>
-						<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
-					</li>
+						<li class="border-none border-2 border-sky-500 hover:border-solid">
+							<a
+								href="#"
+								class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+							>
+								<div class="flex items-center space-x-4">
+									{#if chat.chat_image == ''}
+										<img
+											class="w-10 h-10 rounded-full"
+											src={initial}
+											alt="Default Chat Profile Display"
+										/>
+									<!-- {:else}
+										<img src={chat.chat_image} alt="Chat Profile Display" /> -->
+									{/if}
 
-					<li class="border-none border-2 border-sky-500 hover:border-solid">
-						<a
-							href="#"
-							class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-						>
-							<div class="flex items-center space-x-4">
-								<img
-									class="w-10 h-10 rounded-full"
-									src="https://banner2.cleanpng.com/20180523/tha/kisspng-businessperson-computer-icons-avatar-clip-art-lattice-5b0508dc6a3a10.0013931115270566044351.jpg"
-									alt=""
-								/>
-								<div class="font-medium dark:text-white">
-									<div>John Doe</div>
+									<div class="font-medium dark:text-white">
+										<div>{chat.chat_name}</div>
+									</div>
 								</div>
-							</div>
-						</a>
-						<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
-					</li>
+							</a>
+							<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
+						</li>
+					{/each}
 				</ul>
 			</div>
 		</aside>
 	</div>
 </div>
 
-<!-- <div class="p-4 sm:ml-64" id="body">
-	<div
-		class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
-		style="height:80vh"
-	>
-		<img src={eplogo} alt="EduPro Logo" class="w-4/12 mx-auto my-auto" />
-	</div>
-
-	<div class="relative h-16 w-full mt-4">
-		<div class="absolute inset-x-0 bottom-0 h-16">
-			<form>
-				<label for="chat" class="sr-only">Your message</label>
-				<Alert color="dark" class="px-3 py-2">
-					<svelte:fragment slot="icon">
-						<ToolbarButton color="dark" class="text-gray-500 dark:text-gray-400">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="w-6 h-6"
-								><path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-								/></svg
-							>
-							<span class="sr-only">Upload image</span>
-						</ToolbarButton>
-						<ToolbarButton color="dark" class="text-gray-500 dark:text-gray-400">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="w-6 h-6"
-								><path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
-								/></svg
-							>
-							<span class="sr-only">Add emoji</span>
-						</ToolbarButton>
-						<Textarea id="chat" class="mx-4" rows="1" placeholder="Your message..." />
-						<ToolbarButton
-							type="submit"
-							color="blue"
-							class="rounded-full text-blue-600 dark:text-blue-500"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="w-6 h-6"
-								><path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-								/></svg
-							>
-							<span class="sr-only">Send message</span>
-						</ToolbarButton>
-					</svelte:fragment>
-				</Alert>
-			</form>
-		</div>
-	</div>
-</div> -->
+<Modal title="New Chat" bind:open={newchatModal} size="xl" autoclose>
+	<form class="flex flex-col space-y-6" action="#">
+		<h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+			Please fill in all the fields below to create a new chat.
+		</h3>
+		<Label class="space-y-2">
+			<span>Chat Id</span>
+			<Input bind:value={chat_id} type="text" name="chat_id" placeholder="Chat Id" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Chat Name</span>
+			<Input bind:value={chat_name} type="text" name="chat_name" placeholder="Chat Name" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Chat Type</span>
+			<Input bind:value={chat_type} type="text" name="chat_type" placeholder="Chat Type" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Chat Description</span>
+			<Input bind:value={chat_description} type="text" name="chat_description" placeholder="Chat Description" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Chat Image (As URL)</span>
+			<Input bind:value={chat_image} type="text" name="chat_image" placeholder="Chat Image (As URL)" required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Chat Creator ID (Your ID)</span>
+			<Input bind:value={chat_creator_id} type="text" name="chat_creator_id" placeholder="Chat Creator ID (Your ID)" required />
+		</Label>
+		<Button type="submit" class="w-full1" on:click={createChat}>Create Chat</Button>
+	</form>
+</Modal>
 
 <Modal title="About" bind:open={aboutModal} size="xl" autoclose>
 	<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">

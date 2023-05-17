@@ -6,7 +6,6 @@ type Chat = {
     id: string;
     chat_id: string;
     chat_name: string;
-    chat_message: string;
     chat_type: string;
     chat_description: string;
     chat_image: string;
