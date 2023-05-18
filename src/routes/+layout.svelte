@@ -1,5 +1,5 @@
 <script>
-	import '../app.css';
+	import '../app.postcss';
 	import eplogo from '$lib/images/eplogo.png';
 	import initial from '$lib/images/default.png';
 	import { onMount } from 'svelte';
