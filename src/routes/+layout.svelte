@@ -202,7 +202,7 @@
 					{#each $mainStore.chats as chat}
 						<li class="border-none border-2 border-sky-500 hover:border-solid">
 							<a
-								href="#"
+								href="/"
 								class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 							>
 								<div class="flex items-center space-x-4">
@@ -330,7 +330,7 @@
 		<ul class="space-y-2 font-medium">
 			<li class="border-none border-2 border-sky-500 hover:border-solid">
 				<a
-					href="#"
+					href="/"
 					class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 				>
 					<div class="flex items-center space-x-4">
@@ -390,7 +390,7 @@
 
 			<li class="border-none border-2 border-sky-500 hover:border-solid">
 				<a
-					href="#"
+					href="/"
 					class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 				>
 					<div class="flex items-center space-x-4">
