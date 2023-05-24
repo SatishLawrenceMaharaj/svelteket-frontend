@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../app.postcss';
 	import eplogo from '$lib/images/eplogo.png';
 	import initial from '$lib/images/default.png';
@@ -85,7 +85,6 @@
 			chat_image: chat_image,
 			chat_creator_id: chat_creator_id
 		};
-		console.log(newChat);
 		$utils.createChat(newChat).then((res) => {
 			if (res) {
 				goto('/');
@@ -93,6 +92,10 @@
 				error = 'Could not Create Chat';
 			}
 		});
+	};
+	const deleteChat = async (id:number) => {
+		console.log('delete',id)
+		$utils.deleteChat(id).then((res) => {});
 	};
 </script>
 
@@ -200,29 +203,54 @@
 
 				<ul class="space-y-2 font-medium">
 					{#each $mainStore.chats as chat}
-						<li class="border-none border-2 border-sky-500 hover:border-solid">
+						<li
+							class="border-none border-2 border-sky-500 hover:border-solid grid gap-4 grid-cols-1"
+						>
 							<a
 								href="/"
 								class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 							>
-								<div class="flex items-center space-x-4">
+								<div class="flex items-center space-x-4 w-full">
 									{#if chat.chat_image == ''}
 										<img
 											class="w-10 h-10 rounded-full"
 											src={initial}
 											alt="Default Chat Profile Display"
 										/>
-									<!-- {:else}
-										<img src={chat.chat_image} alt="Chat Profile Display" /> -->
+									{:else}
+										<img
+											src={chat.chat_image}
+											class="w-10 h-10 rounded-full"
+											alt="Chat Profile Display"
+										/>
 									{/if}
 
 									<div class="font-medium dark:text-white">
 										<div>{chat.chat_name}</div>
 									</div>
+									<button
+										class="inline-flex items-center justify-center w-8 h-8 ml-6 text-sky-100 transition-colors duration-150 bg-sky-700 rounded-full focus:shadow-outline hover:bg-red-800"
+										on:click={deleteChat(chat.id)}
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-4 w-4"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+											/>
+										</svg>
+									</button>
 								</div>
 							</a>
-							<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
 						</li>
+						<hr class="h-px bg-gray-200 border-0 dark:bg-gray-700" />
 					{/each}
 				</ul>
 			</div>
@@ -249,15 +277,33 @@
 		</Label>
 		<Label class="space-y-2">
 			<span>Chat Description</span>
-			<Input bind:value={chat_description} type="text" name="chat_description" placeholder="Chat Description" required />
+			<Input
+				bind:value={chat_description}
+				type="text"
+				name="chat_description"
+				placeholder="Chat Description"
+				required
+			/>
 		</Label>
 		<Label class="space-y-2">
 			<span>Chat Image (As URL)</span>
-			<Input bind:value={chat_image} type="text" name="chat_image" placeholder="Chat Image (As URL)" required />
+			<Input
+				bind:value={chat_image}
+				type="text"
+				name="chat_image"
+				placeholder="Chat Image (As URL)"
+				required
+			/>
 		</Label>
 		<Label class="space-y-2">
 			<span>Chat Creator ID (Your ID)</span>
-			<Input bind:value={chat_creator_id} type="text" name="chat_creator_id" placeholder="Chat Creator ID (Your ID)" required />
+			<Input
+				bind:value={chat_creator_id}
+				type="text"
+				name="chat_creator_id"
+				placeholder="Chat Creator ID (Your ID)"
+				required
+			/>
 		</Label>
 		<Button type="submit" class="w-full1" on:click={createChat}>Create Chat</Button>
 	</form>

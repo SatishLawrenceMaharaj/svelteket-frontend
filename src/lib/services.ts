@@ -28,14 +28,26 @@ export default class Service {
     async createChat(newChat: any) {
         console.log('createChat');
         return this.post(`api/chat/create`, newChat).then((res) => {
-			if (res) {
-				mainStore.update((store) => {
-					store.chats.push(res);
-					return store;
-				});
-			}
-		});
-        
+            if (res) {
+                mainStore.update((store) => {
+                    store.chats.push(res);
+                    return store;
+                });
+            }
+        });
+
+    }
+
+    async deleteChat(chatId: number) {
+        console.log("deleting:",chatId);
+        return this.delete(`api/chat/delete/${chatId}`).then((res) => {
+            if (res) {
+                mainStore.update((store) => {
+                    store.chats = store.chats.filter((chat: any) => chat.id !== chatId);
+                    return store;
+                });
+            }
+        });
     }
 
     async post(path: string, body: object) {
@@ -103,4 +115,38 @@ export default class Service {
                 console.log(err);
             });
     }
+
+    async delete(path: string) {
+        return fetch(`${this.endpoint}/${path}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `JWT ${this.store.access_token}`
+            }
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    res.json().then((json) => {
+                        if (!json.ok) {
+                            mainStore.update((store) => {
+                                store.notification = {
+                                    message: json.message,
+                                    type: 'error',
+                                    active: true
+                                };
+                                return store;
+                            });
+                        }
+                        return null;
+                    });
+                }
+            })
+
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 }
+
